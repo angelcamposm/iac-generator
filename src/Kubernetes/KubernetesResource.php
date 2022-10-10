@@ -10,7 +10,6 @@ abstract class KubernetesResource
     protected array $labels = [];
     protected string $name;
     protected string $namespace = '';
-    protected array $ports = [];
     protected array $selectors = [];
 
     /**
@@ -64,25 +63,6 @@ abstract class KubernetesResource
         }
         return $this;
     }
-    
-    public function addPort(
-        int $exposedPort,
-        int $targetPort,
-        string|null $name = null,
-        string $protocol = 'TCP'
-    ): KubernetesResource
-    {
-        $port = [
-            'port' => $exposedPort,
-            'protocol' => $protocol,
-            'targetPort' => $targetPort,
-        ];
 
-        if ($name !== null) {
-            $port['name'] = $name;
-        }
 
-        $this->ports[] = $port;
-        return $this;
-    }
 }

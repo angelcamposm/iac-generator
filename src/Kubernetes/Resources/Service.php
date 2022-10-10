@@ -12,7 +12,7 @@ class Service extends KubernetesResource
     protected array $ports = [];
     
     /**
-     * Service Contructor.
+     * Service Constructor.
      */
     public function __construct(String|null $name = null)
     {
@@ -20,6 +20,27 @@ class Service extends KubernetesResource
         if ($name !== null) {
             $this->name($name);
         }
+    }
+
+    public function addPort(
+        int $exposedPort,
+        int $targetPort,
+        string|null $name = null,
+        string $protocol = 'TCP'
+    ): KubernetesResource
+    {
+        $port = [
+            'port' => $exposedPort,
+            'protocol' => $protocol,
+            'targetPort' => $targetPort,
+        ];
+
+        if ($name !== null) {
+            $port['name'] = $name;
+        }
+
+        $this->ports[] = $port;
+        return $this;
     }
 
     public function toArray(): array
